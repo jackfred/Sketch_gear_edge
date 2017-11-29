@@ -39,7 +39,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	char m_ptpspeed[200];
 	char m_p[200];
 	char m_simulator[200];
-	char m_getmotion[200] = "NETS_GETRUNSTATUS 192.168.100.2\0";
+	//Real mode
+	//char m_getmotion[200] = "NETS_GETRUNSTATUS 192.168.100.2\0";
+	//Simulation mode
+	char m_getmotion[200] = "NETS_GETRUNSTATUS 127.0.0.1\0";
 	char m_check[200];
 	char m_abort[200] = "ABORT";
 	//Initialize all memory to 0

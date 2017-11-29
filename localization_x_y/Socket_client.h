@@ -24,7 +24,13 @@ public:
 	//³]©w socket
 
 	int addlen = sizeof(addr);
-	const char* ip_address = "192.168.100.1";
+
+	//Real mode 
+	//Need to set IP of this PC to 192.168.100.1 and then set control PC to 192.168.100.2
+	//const char* ip_address = "192.168.100.1";
+	//Simulation mode
+	const char* ip_address = "127.0.0.1";
+
 	int Port = 4000;
 	Socket_client();
 	~Socket_client();
@@ -32,5 +38,6 @@ public:
 	void readMessage(SOCKET curSocket, char * buffer, int bufSize);
 	void sendMessage(SOCKET curSocket, const char * message, int messageSize);
 	void Message(SOCKET curSocket, char * buffer, char * out, const int bufSize, bool print = true);
+	char* Socket_client::Message(char * command_in, bool print);
 };
 

@@ -76,6 +76,35 @@ void Socket_client::Message(SOCKET curSocket, char * buffer, char * out, int buf
 	recv(curSocket, ptr, temp_size_read, 0);
 }
 
+char* Socket_client::Message(char * command_in, bool print)
+{
+	SOCKET curSocket = sConnect;
+	int bufSize = 200;
+	char *buffer,*out;
+	memset(buffer, 0, bufSize);
+	memset(out, 0, bufSize);
+	sprintf_s(buffer, sizeof(bufSize), "%s", command_in);
+
+	bufSize = strlen(buffer) + 1;
+	int temp_size = strlen(buffer) + 1;
+	while (bufSize > 0)
+	{
+		int i = send(curSocket, buffer, bufSize, 0);
+		buffer += i;
+		bufSize -= i;
+	}
+	char *ptr_send = buffer - temp_size;
+	if (print){
+		printf_s("Send : %s\n", ptr_send, 0);
+	}
+	char* ptr = out;
+	int temp_size_read = 200;
+	int i = 1;
+	recv(curSocket, ptr, temp_size_read, 0);
+
+	return ptr;
+}
+
 
 Socket_client::~Socket_client()
 {
