@@ -2,6 +2,9 @@
 #include <string>
 #include <iostream>
 #include <WS2tcpip.h>
+//For tcp/ip
+#include <boost/asio.hpp>
+#include <boost/array.hpp>
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -38,6 +41,7 @@ public:
 	void readMessage(SOCKET curSocket, char * buffer, int bufSize);
 	void sendMessage(SOCKET curSocket, const char * message, int messageSize);
 	void Message(SOCKET curSocket, char * buffer, char * out, const int bufSize, bool print = true);
-	char* Socket_client::Message(char * command_in, bool print);
+	char* Message(char * command_in, bool print = false);
+	void send_something(std::string message);
 };
 

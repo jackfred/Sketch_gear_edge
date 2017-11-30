@@ -76,22 +76,22 @@ void Socket_client::Message(SOCKET curSocket, char * buffer, char * out, int buf
 	recv(curSocket, ptr, temp_size_read, 0);
 }
 
-char* Socket_client::Message(char * command_in, bool print)
+char* Socket_client::Message(char *command_in, bool print)
 {
 	SOCKET curSocket = sConnect;
-	int bufSize = 200;
-	char *buffer,*out;
+	const int bufSize = 200;
+	char buffer[bufSize], out[bufSize];
 	memset(buffer, 0, bufSize);
 	memset(out, 0, bufSize);
 	sprintf_s(buffer, sizeof(bufSize), "%s", command_in);
 
-	bufSize = strlen(buffer) + 1;
+	int string_len = strlen(buffer) + 1;
 	int temp_size = strlen(buffer) + 1;
 	while (bufSize > 0)
 	{
-		int i = send(curSocket, buffer, bufSize, 0);
-		buffer += i;
-		bufSize -= i;
+		int i = send(curSocket, buffer, string_len, 0);
+		//buffer += i;
+		string_len -= i;
 	}
 	char *ptr_send = buffer - temp_size;
 	if (print){
@@ -110,4 +110,18 @@ Socket_client::~Socket_client()
 {
 	//若之後不再使用，可用 closesocket 關閉連線
 	closesocket(sConnect);
+}
+
+
+void Socket_client::send_something(std::string message)
+{
+	boost::asio::io_service ios;
+	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(ip_address), Port);
+	boost::asio::ip::tcp::socket socket(ios);
+	socket.connect(endpoint);
+	boost::array<char, 128> buf;
+	std::copy(message.begin(), message.end(), buf.begin());
+	boost::system::error_code error;
+	socket.write_some(boost::asio::buffer(buf, message.size()), error);
+	socket.close();
 }

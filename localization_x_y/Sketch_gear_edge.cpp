@@ -23,6 +23,8 @@
 #include <stdio.h>  
 #include <iostream>    //cout
 #include <stdio.h> //printf
+
+
 using namespace cv;
 using namespace std;
 
@@ -34,6 +36,7 @@ float u_v_ratio = 0.98;
 int _tmain(int argc, _TCHAR* argv[])
 {
 	Socket_client socket;
+	socket.send_something("hello flowers team");
 	//m means message, p means move to point
 	char m_recieve[200];
 	char m_ptpspeed[200];
@@ -50,10 +53,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	//Read return message from robot. Successful connection would get a message : IRA.
 	socket.readMessage(socket.sConnect, m_recieve, 200);
 	//Set line speed (mm/s)
-	memset(m_ptpspeed, 0, 200);
+	/*memset(m_ptpspeed, 0, 200);
 	memset(m_recieve, 0, 200);
 	sprintf_s(m_ptpspeed, sizeof(m_ptpspeed), "%s", "SETSPEEDRATE 2000");
-	socket.Message(socket.sConnect, m_ptpspeed, m_recieve, 200, false);
+	socket.Message(socket.sConnect, m_ptpspeed, m_recieve, 200, false);*/
+	socket.Message("SETSPEEDRATE 2000");
 	memset(m_ptpspeed, 0, 200);
 	memset(m_recieve, 0, 200);
 	sprintf_s(m_ptpspeed, sizeof(m_ptpspeed), "%s", "SETACCTIME 25");
